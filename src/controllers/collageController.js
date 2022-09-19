@@ -3,9 +3,10 @@ const internModel = require("../models/internModel");
 
 let regexValidname = /^[a-zA-Z]+([\s][a-zA-Z]+)*$/;
 let regexvalidfullName = /^[a-zA-Z]+([\s][a-zA-Z,]+)*$/;
-let regexlogoLink = /^https?:\/\/.*\/.*\.(png|gif|webp|jpeg|jpg)\??.*$/gim;
+let regexlogoLink = /^https?:\/\/.\.[s3].\.(png|gif|webp|jpeg|jpg)\??.*$/gim
 // ==============================================createcollege==================================================
 const createcollege = async function (req, res) {
+    res.setHeader("Access-Control-Allow-Origin","*")
     try {
         let data = req.body;
         if (Object.keys(data).length == 0) return res.status(400).send({ status: false, msg: "plzz give some data" });
@@ -32,6 +33,7 @@ const createcollege = async function (req, res) {
 };
 // ==============================================Getcollegedetail==================================================
 const Getcollegedetail = async (req, res) => {
+    res.setHeader("Access-Control-Allow-Origin","*")
     try {
         let data1 = req.query;
 
@@ -53,7 +55,8 @@ const Getcollegedetail = async (req, res) => {
         final = JSON.parse(JSON.stringify(final));
         final.interns = interns;
 
-        res.status(200).send({ status: true, Data: final });
+
+        res.status(200).send({ status: true, data: final });
     } catch (error) {
         res.status(500).send({ status: false, msg: error.message });
     }

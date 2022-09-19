@@ -1,9 +1,11 @@
 const express = require('express');
+const multer = require("multer");
 const bodyParser = require('body-parser');
 const route = require('./routes/route.js');
 const mongoose = require('mongoose');
 const app = express();
 
+app.use(multer().any())
 app.use(bodyParser.json());
 
 
@@ -16,6 +18,6 @@ mongoose.connect("mongodb+srv://Backend-Developer:VOsRhEoMTbd0U6U6@cluster0.a48n
 app.use('/', route);
 
 
-app.listen(process.env.PORT || 3000, function () {
-    console.log('Express app running on port ' + (process.env.PORT || 3000))
+app.listen(process.env.PORT || 3001, function () {
+    console.log('Express app running on port ' + (process.env.PORT || 3001))
 });
