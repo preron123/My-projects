@@ -1,11 +1,10 @@
 const mongoose = require("mongoose");
 const ShortUrlSchema = new mongoose.Schema(
   {
-    urlCode: { type: String, required: true, unique: true, lowercase: true, trim: true },
-    longUrl: { type: String, required: true },
-    shortUrl: { type: String, required: true, unique: true }
-  }
-
-);
-
+    longUrl: { type: String, required: true},
+    shortUrl: { type: String, required: true, unique: true, lowercase:true },
+    urlCode: { type: String, required: true, unique: true, lowercase: true, trim: true }
+  }, 
+  { versionKey: false }
+)
 module.exports = mongoose.model("ShortUrl", ShortUrlSchema);
