@@ -1,11 +1,9 @@
 const express = require('express');
-const multer = require("multer");
 const bodyParser = require('body-parser');
 const route = require('./routes/route.js');
 const mongoose = require('mongoose');
 const app = express();
 
-app.use(multer().any())
 app.use(bodyParser.json());
 
 

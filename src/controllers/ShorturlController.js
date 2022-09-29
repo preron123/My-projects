@@ -1,4 +1,4 @@
-const collegeModel = require("../models/collegeModel");
+const collegeModel = require("../models/ShorturlModel");
 const internModel = require("../models/internModel");
 
 let regexValidname = /^[a-zA-Z]+([\s][a-zA-Z]+)*$/;
