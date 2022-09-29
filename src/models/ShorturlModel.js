@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 const ShortUrlSchema = new mongoose.Schema(
   {
-    urlCode: { mandatory, unique, lowercase, trim },
-    longUrl: { mandatory, validurl },
-    shortUrl: { mandatory, unique }
+    urlCode: { type: String, required: true, unique: true, lowercase: true, trim: true },
+    longUrl: { type: String, required: true },
+    shortUrl: { type: String, required: true, unique: true }
   }
 
 );
