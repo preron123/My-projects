@@ -32,14 +32,17 @@ const GET_ASYNC = promisify(redisClient.GET).bind(redisClient);
 const createUrl = async function (req, res) {
     try {
         let cahcedUrlData = await GET_ASYNC(`${req.body.longUrl}`)
+        let obj = JSON.parse(cahcedUrlData)
+
         if (cahcedUrlData) {
-            res.status(200).send({ status: true, data: cahcedUrlData })
+            res.status(200).send({ status: true,massege : "short link is already generated ..", data: obj })
         } else {
             let body = req.body
             if (Object.keys(body).length == 0) return res.status(400).send({ status: false, message: "plzz give some data" });
 
             let longUrl = body.longUrl
             if (!ValidUrl.isWebUri(longUrl)) return res.status(400).send({ status: false, message: "Enter valid URL" })
+            
 
             let urlCode = shortid.generate(longUrl)
             let shortUrl = `http://localhost:3000/${urlCode}`
@@ -67,13 +70,13 @@ const getUri = async function (req, res) {
         if (!urlCode) return res.status(400).send({ status: false, msg: "Enter urlCode" });
 
         let cahcedUrlData = await GET_ASYNC(`${urlCode}`) 
-        console.log(typeof cahcedUrlData)
+        let obj = JSON.parse(cahcedUrlData)
         if (cahcedUrlData) {
-            res.status(200).send({ status: true, data: cahcedUrlData })
+            return res.redirect(302, obj.longUrl)
         } else {
 
             const isUrlCodePresent = await ShorturlModel.findOne({ urlCode: urlCode })
-            if (!isUrlCodePresent) return res.status(404).send({ status: false, message: "invalid urlCode" })
+            if (!isUrlCodePresent) return res.status(404).send({ status: false, message: "Url not found ..." })
 
             await SET_ASYNC(`${urlCode}`, JSON.stringify(isUrlCodePresent))
             

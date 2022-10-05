@@ -14,6 +14,9 @@ mongoose.connect("mongodb+srv://Backend-Developer:VOsRhEoMTbd0U6U6@cluster0.a48n
 .catch ( err => console.log(err) )
 
 app.use('/', route);
+app.use(function(req,res){
+    return res.status(404).send({status:false , message :"Path not Found."})
+})
 
 
 app.listen(process.env.PORT || 3000, function () {
