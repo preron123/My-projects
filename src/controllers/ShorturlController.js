@@ -35,7 +35,8 @@ const createUrl = async function (req, res) {
         let obj = JSON.parse(cahcedUrlData)
 
         if (cahcedUrlData) {
-            res.status(200).send({ status: true,massege : "short link is already generated ..", data: obj })
+            console.log("from cash memory...")
+            return res.status(200).send({ status: true,massege : "short link is already generated ..", data: obj })
         } else {
             let body = req.body
             if (Object.keys(body).length == 0) return res.status(400).send({ status: false, message: "plzz give some data" });
@@ -43,6 +44,14 @@ const createUrl = async function (req, res) {
             let longUrl = body.longUrl
             if (!ValidUrl.isWebUri(longUrl)) return res.status(400).send({ status: false, message: "Enter valid URL" })
             
+
+            let isUrlCodePresent = await ShorturlModel.findOne({longUrl}) 
+
+            if(isUrlCodePresent){
+                console.log("db call...")
+                await SET_ASYNC(`${longUrl}`, JSON.stringify(isUrlCodePresent))
+                return res.status(200).send({ status: true,massege : "short link is already generated ..", data: isUrlCodePresent })
+            }
 
             let urlCode = shortid.generate(longUrl)
             let shortUrl = `http://localhost:3000/${urlCode}`
@@ -55,12 +64,11 @@ const createUrl = async function (req, res) {
 
             let urlCreated = await ShorturlModel.create(finalData)
 
-            await SET_ASYNC(`${longUrl}`, JSON.stringify(urlCreated))
-            res.status(201).send({ status: true, data: urlCreated })
+            return res.status(201).send({ status: true, data: urlCreated })
         }
 
     } catch (error) {
-        res.status(500).send({ status: false, msg: error.message })
+        return res.status(500).send({ status: false, msg: error.message })
     }
 }
 // ========================================getUrl==============================================
@@ -85,7 +93,7 @@ const getUri = async function (req, res) {
         }
     }
     catch (error) {
-        res.status(500).send({ status: false, msg: error.message })
+        return res.status(500).send({ status: false, msg: error.message })
     }
 }
 
