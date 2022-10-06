@@ -15,7 +15,7 @@ mongoose.connect("mongodb+srv://Backend-Developer:VOsRhEoMTbd0U6U6@cluster0.a48n
 
 app.use('/', route);
 app.use(function(req,res){
-    return res.status(404).send({status:false , message :"Path not Found."})
+    return res.status(404).send({status:false , message :"Path not Found.."})
 })
 
 
