@@ -37,7 +37,7 @@ const createUrl = async function (req, res) {
 
         let longUrl = body.longUrl
         // if (!ValidUrl.isWebUri(longUrl)) return res.status(400).send({ status: false, message: "Enter valid URL" })
-
+        if(!longUrl) return res.status(400).send({ status: false, message: "long url is required..." })
         let cahcedUrlData = await GET_ASYNC(`${req.body.longUrl}`)
         let obj = JSON.parse(cahcedUrlData)
 
